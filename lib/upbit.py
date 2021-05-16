@@ -56,8 +56,21 @@ class UpBit:
         return requests.get(self.__server_url + '/v1/accounts', headers=headers)
 
     # 주문
-    def order(self):
-        pass
+    def order(self, market_code, side, volume, price, order_type, identifier=None):
+        params = {
+            'market': market_code,
+            'side': side,
+            'volume': volume,
+            'price': price,
+            'ord_type': order_type
+        }
+
+        if identifier is not None:
+            params['identifier'] = identifier
+
+        headers = self.__generate_auth_headers(params)
+
+        return requests.post(self.__server_url + "/v1/orders", params=params, headers=headers)
 
     # 주문 취소
     def order_cancel(self, uuid=None, identifier=None):
