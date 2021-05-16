@@ -20,9 +20,11 @@ class DogeTrader(trader.Trader):
         self.__upbit.set_access_key(access_key)
         self.__upbit.set_secret_key(secret_key)
 
+        self.__market_code = config.doge['market_code']
+
         self.__ticker = None
         self.__day_candle = None
-        self.__market_code = config.doge['market_code']
+        self.__order_chance = None
 
     def buy(self):
         # TODO
@@ -31,6 +33,11 @@ class DogeTrader(trader.Trader):
     def sell(self):
         # TODO
         pass
+
+    def order_chance(self):
+        self.__order_chance = self.__upbit.order_chance(market_code=self.__market_code)
+
+        return self.__order_chance
 
     def ticker(self):
         self.__ticker = self.__upbit.ticker(market_code=self.__market_code).json()

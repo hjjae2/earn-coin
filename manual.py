@@ -15,6 +15,9 @@ upbit.set_secret_key(secret_key)
 res = upbit.accounts()
 print(json.dumps(res.json(), indent=4, sort_keys=True, ensure_ascii=False))
 
+res = upbit.order_chance(market_code='KRW-DOGE')
+print(json.dumps(res.json(), indent=4, sort_keys=True, ensure_ascii=False))
+
 # market_codes
 res = upbit.market_codes()
 print(json.dumps(res.json(), indent=4, sort_keys=True, ensure_ascii=False))

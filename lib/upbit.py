@@ -1,5 +1,8 @@
+from urllib.parse import urlencode
+
 import jwt
 import uuid
+import hashlib
 import requests
 
 
@@ -16,18 +19,28 @@ class UpBit:
         return {"Accept": "application/json"}
 
     # Generate auth header
-    def __generate_auth_headers(self):
+    def __generate_auth_headers(self, query=None):
+        if query is not None:
+            return {"Authorization": self.__generate_token(query)}
         return {"Authorization": self.__generate_token()}
 
     # Generate token
-    def __generate_token(self):
-        if self.__access_key is not None and self.__secret_key is not None:
-            payload = {
-                'access_key': self.__access_key,
-                'nonce': str(uuid.uuid4()),
-            }
-            return 'Bearer {}'.format(jwt.encode(payload, self.__secret_key))
-        return None
+    def __generate_token(self, query=None):
+        if self.__access_key is None or self.__secret_key is None:
+            return None
+
+        payload = {
+            'access_key': self.__access_key,
+            'nonce': str(uuid.uuid4()),
+        }
+
+        if query is not None:
+            sha512 = hashlib.sha512()
+            sha512.update(urlencode(query).encode())
+            payload['query_hash'] = sha512.hexdigest()
+            payload['query_hash_alg'] = 'SHA512'
+
+        return 'Bearer {}'.format(jwt.encode(payload, self.__secret_key))
 
     # Set access key
     def set_access_key(self, access_key=None):
@@ -41,6 +54,11 @@ class UpBit:
     def accounts(self):
         headers = self.__generate_auth_headers()
         return requests.get(self.__server_url + '/v1/accounts', headers=headers)
+
+    def order_chance(self, market_code=None):
+        params = {'market': market_code}
+        headers = self.__generate_auth_headers(params)
+        return requests.get(self.__server_url + '/v1/orders/chance', headers=headers, params=params)
 
     # 마켓 코드 조회
     def market_codes(self):
