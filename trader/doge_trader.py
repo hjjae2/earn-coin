@@ -35,7 +35,7 @@ class DogeTrader(trader.Trader):
         pass
 
     def order_chance(self):
-        self.__order_chance = self.__upbit.order_chance(market_code=self.__market_code)
+        self.__order_chance = self.__upbit.order_chance(market_code=self.__market_code).json()
 
         return self.__order_chance
 
