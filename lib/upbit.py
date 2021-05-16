@@ -60,8 +60,19 @@ class UpBit:
         pass
 
     # 주문 취소
-    def order_cancel(self):
-        pass
+    def order_cancel(self, uuid=None, identifier=None):
+        if uuid is None and identifier is None:
+            return False
+
+        params = {}
+        if uuid is not None:
+            params['uuid'] = uuid
+        elif identifier is not None:
+            params['identifier'] = identifier
+
+        headers = self.__generate_auth_headers(params)
+
+        return requests.delete(self.__server_url + '/v1/order', headers=headers, params=params)
 
     # 개별 주문 조회
     def order_info(self, uuid=None, identifier=None):
