@@ -55,6 +55,33 @@ class UpBit:
         headers = self.__generate_auth_headers()
         return requests.get(self.__server_url + '/v1/accounts', headers=headers)
 
+    # 주문
+    def order(self):
+        pass
+
+    # 주문 취소
+    def order_cancel(self):
+        pass
+
+    # 개별 주문 조회
+    def order_info(self, uuid=None, identifier=None):
+        if uuid is None and identifier is None:
+            return False
+
+        params = {}
+        if uuid is not None:
+            params['uuid'] = uuid
+        elif identifier is not None:
+            params['identifier'] = identifier
+
+        headers = self.__generate_auth_headers(params)
+
+        return requests.get(self.__server_url + '/v1/order', headers=headers, params=params)
+
+    # 주문 리스트 조회
+    def order_infos(self):
+        pass
+
     # 주문 가능 정보
     def order_chance(self, market_code=None):
         params = {'market': market_code}
