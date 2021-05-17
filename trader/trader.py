@@ -13,3 +13,11 @@ class Trader(metaclass=ABCMeta):
     @abstractmethod
     def sell(self):
         pass
+
+    @abstractmethod
+    def set_target_buy_price(self):
+        pass
+
+    @abstractmethod
+    def set_target_sell_price(self):
+        pass
