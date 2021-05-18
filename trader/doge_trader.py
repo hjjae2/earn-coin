@@ -31,7 +31,7 @@ class DogeTrader(trader.Trader):
         pass
 
     def get_current_price(self):
-        pass
+        return self.__upbit.ticker(self.__market_code).json()[0]['trade_price']
 
     def get_current_balance(self):
         balances = self.__upbit.accounts().json()
