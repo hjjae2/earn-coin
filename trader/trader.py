@@ -15,6 +15,14 @@ class Trader(metaclass=ABCMeta):
         pass
 
     @abstractmethod
+    def get_current_price(self):
+        pass
+
+    @abstractmethod
+    def get_current_balance(self):
+        pass
+
+    @abstractmethod
     def set_target_buy_price(self):
         pass
 

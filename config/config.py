@@ -5,6 +5,7 @@ default = {
 
 doge = {
     'market_code': 'KRW-DOGE',
+    'currency': 'DOGE',
     'node_ratio': 0.5,
 }
 

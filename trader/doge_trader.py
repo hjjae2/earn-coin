@@ -17,6 +17,7 @@ class DogeTrader(trader.Trader):
         self.__upbit.set_secret_key(self.__key_reader.get_secret_key())
 
         self.__market_code = config.doge['market_code']
+        self.__currency = config.doge['currency']
         self.__noise_ratio = config.doge['node_ratio']
         self.__target_buy_price = config.default['buy_price']
         self.__target_sell_price = config.default['sell_price']
@@ -29,6 +30,25 @@ class DogeTrader(trader.Trader):
         # TODO
         pass
 
+    def get_current_price(self):
+        pass
+
+    def get_current_balance(self):
+        balances = self.__upbit.accounts().json()
+        current_balance = None
+
+        for balance in balances:
+            if balance['currency'] == self.__currency:
+                current_balance = balance
+
+        return current_balance
+
+    def get_target_buy_price(self):
+        return self.__target_buy_price
+
+    def get_target_sell_price(self):
+        return self.__target_sell_price
+
     def set_target_buy_price(self, count=2):
         day_candles = DataFrame.from_dict(self.__day_candle(count))
 
@@ -40,12 +60,6 @@ class DogeTrader(trader.Trader):
 
     def set_target_sell_price(self):
         self.__target_sell_price = self.__target_buy_price
-
-    def get_target_buy_price(self):
-        return self.__target_buy_price
-
-    def get_target_sell_price(self):
-        return self.__target_sell_price
 
     def __day_candle(self, count=1):
         day_candles = self.__upbit.day_candle(market_code=self.__market_code, count=count).json()
