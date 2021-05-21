@@ -1,7 +1,5 @@
 ## :zap: Earn-coin
 
-I Should earn many coins !! 💰
-
 ### Information
 
 You can use below functions using My API key.
