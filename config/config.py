@@ -3,6 +3,11 @@ default = {
     'sell_price': 99999999999,
 }
 
+krw = {
+    'market_code': 'KRW',
+    'currency': 'KRW',
+}
+
 doge = {
     'market_code': 'KRW-DOGE',
     'currency': 'DOGE',
