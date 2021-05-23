@@ -22,13 +22,17 @@ class DogeTrader(trader.Trader):
         self.__target_buy_price = config.default['buy_price']
         self.__target_sell_price = config.default['sell_price']
 
-    def buy(self):
-        # TODO
-        pass
+        self.set_target_buy_price()
+        self.set_target_sell_price()
 
-    def sell(self):
-        # TODO
-        pass
+    def buy(self, price=0):
+        return self.__upbit.order(self.__market_code, 'bid', volume=None, price=price, order_type='price').json()
+
+    def sell(self, volume=0):
+        return self.__upbit.order(self.__market_code, 'ask', volume=volume, price=None, order_type='market').json()
+
+    def get_order_info(self):
+        return self.__upbit.order_chance(self.__market_code).json()
 
     def get_current_price(self):
         return self.__upbit.ticker(self.__market_code).json()[0]['trade_price']
@@ -41,7 +45,7 @@ class DogeTrader(trader.Trader):
             if balance['currency'] == self.__currency:
                 current_balance = balance
 
-        return current_balance
+        return current_balance['balance']
 
     def get_target_buy_price(self):
         return self.__target_buy_price
