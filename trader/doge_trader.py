@@ -1,9 +1,8 @@
 from config import config
-
+from trader import trader
 from lib import upbit
 from lib import key_reader
-
-from trader import trader
+from pandas import DataFrame
 
 
 class DogeTrader(trader.Trader):
@@ -14,17 +13,14 @@ class DogeTrader(trader.Trader):
         self.__upbit = upbit.UpBit()
         self.__key_reader = key_reader.KeyReader()
 
-        access_key = self.__key_reader.get_access_key()
-        secret_key = self.__key_reader.get_secret_key()
-
-        self.__upbit.set_access_key(access_key)
-        self.__upbit.set_secret_key(secret_key)
+        self.__upbit.set_access_key(self.__key_reader.get_access_key())
+        self.__upbit.set_secret_key(self.__key_reader.get_secret_key())
 
         self.__market_code = config.doge['market_code']
-
-        self.__ticker = None
-        self.__day_candle = None
-        self.__order_chance = None
+        self.__currency = config.doge['currency']
+        self.__noise_ratio = config.doge['noise_ratio']
+        self.__target_buy_price = config.default['buy_price']
+        self.__target_sell_price = config.default['sell_price']
 
     def buy(self):
         # TODO
@@ -34,17 +30,36 @@ class DogeTrader(trader.Trader):
         # TODO
         pass
 
-    def order_chance(self):
-        self.__order_chance = self.__upbit.order_chance(market_code=self.__market_code).json()
+    def get_current_price(self):
+        return self.__upbit.ticker(self.__market_code).json()[0]['trade_price']
 
-        return self.__order_chance
+    def get_current_balance(self):
+        balances = self.__upbit.accounts().json()
+        current_balance = None
 
-    def ticker(self):
-        self.__ticker = self.__upbit.ticker(market_code=self.__market_code).json()
+        for balance in balances:
+            if balance['currency'] == self.__currency:
+                current_balance = balance
 
-        return self.__ticker
+        return current_balance
 
-    def day_candle(self):
-        self.__day_candle = self.__upbit.day_candle(market_code=self.__market_code, count=1).json()
+    def get_target_buy_price(self):
+        return self.__target_buy_price
 
-        return self.__day_candle
+    def get_target_sell_price(self):
+        return self.__target_sell_price
+
+    def set_target_buy_price(self, count=2):
+        day_candles = DataFrame.from_dict(self.__day_candle(count))
+
+        today = day_candles.iloc[0]
+        yesterday = day_candles.iloc[1]
+        yesterday_volatility_range = yesterday['high_price'] - yesterday['low_price']
+
+        self.__target_buy_price = today['opening_price'] + (yesterday_volatility_range * self.__noise_ratio)
+
+    def set_target_sell_price(self):
+        self.__target_sell_price = self.__target_buy_price
+
+    def __day_candle(self, count=1):
+        return self.__upbit.day_candle(market_code=self.__market_code, count=count).json()
