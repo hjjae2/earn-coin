@@ -62,6 +62,4 @@ class DogeTrader(trader.Trader):
         self.__target_sell_price = self.__target_buy_price
 
     def __day_candle(self, count=1):
-        day_candles = self.__upbit.day_candle(market_code=self.__market_code, count=count).json()
-
-        return day_candles
+        return self.__upbit.day_candle(market_code=self.__market_code, count=count).json()
