@@ -60,11 +60,13 @@ class UpBit:
         params = {
             'market': market_code,
             'side': side,
-            'volume': volume,
-            'price': price,
             'ord_type': order_type
         }
 
+        if volume is not None:
+            params['volume'] = volume
+        if price is not None:
+            params['price'] = price
         if identifier is not None:
             params['identifier'] = identifier
 
