@@ -6,7 +6,6 @@ default = {
 krw = {
     'market_code': 'KRW',
     'currency': 'KRW',
-    'noise_ratio': 0.5,
 }
 
 doge = {
