@@ -18,7 +18,7 @@ class DogeTrader(trader.Trader):
 
         self.__market_code = config.doge['market_code']
         self.__currency = config.doge['currency']
-        self.__noise_ratio = config.doge['node_ratio']
+        self.__noise_ratio = config.doge['noise_ratio']
         self.__target_buy_price = config.default['buy_price']
         self.__target_sell_price = config.default['sell_price']
 
