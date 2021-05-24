@@ -16,16 +16,23 @@ class DogeTrader(trader.Trader):
         self.__upbit.set_access_key(self.__key_reader.get_access_key())
         self.__upbit.set_secret_key(self.__key_reader.get_secret_key())
 
-        self.__market_code = config.doge['market_code']
+        self.__bid_fee = config.doge['bid_fee']
+        self.__ask_fee = config.doge['ask_fee']
         self.__currency = config.doge['currency']
+        self.__market_code = config.doge['market_code']
         self.__noise_ratio = config.doge['noise_ratio']
+        self.__min_price_to_buy = config.doge['min_price_to_buy']
+        self.__min_price_to_sell = config.doge['min_price_to_sell']
         self.__target_buy_price = config.default['buy_price']
         self.__target_sell_price = config.default['sell_price']
 
         self.set_target_buy_price()
         self.set_target_sell_price()
+        self.set_min_price_to_buy()
+        self.set_min_price_to_sell()
 
     def buy(self, price=0):
+        price = price * (1 - self.__bid_fee)
         return self.__upbit.order(self.__market_code, 'bid', volume=None, price=price, order_type='price').json()
 
     def sell(self, volume=0):
@@ -36,6 +43,12 @@ class DogeTrader(trader.Trader):
 
     def get_current_price(self):
         return self.__upbit.ticker(self.__market_code).json()[0]['trade_price']
+
+    def get_min_price_to_buy(self):
+        return self.__min_price_to_buy
+
+    def get_min_price_to_sell(self):
+        return self.__min_price_to_sell
 
     def get_current_balance(self):
         balances = self.__upbit.accounts().json()
@@ -64,6 +77,12 @@ class DogeTrader(trader.Trader):
 
     def set_target_sell_price(self):
         self.__target_sell_price = self.__target_buy_price
+
+    def set_min_price_to_buy(self):
+        self.__min_price_to_buy = self.get_order_info()['market']['bid']['min_total']
+
+    def set_min_price_to_sell(self):
+        self.__min_price_to_sell = self.get_order_info()['market']['ask']['min_total']
 
     def __day_candle(self, count=1):
         return self.__upbit.day_candle(market_code=self.__market_code, count=count).json()
