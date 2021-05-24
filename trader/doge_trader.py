@@ -26,10 +26,10 @@ class DogeTrader(trader.Trader):
         self.__target_buy_price = config.default['buy_price']
         self.__target_sell_price = config.default['sell_price']
 
-        self.set_target_buy_price()
-        self.set_target_sell_price()
-        self.set_min_price_to_buy()
-        self.set_min_price_to_sell()
+        self.init_target_buy_price()
+        self.init_target_sell_price()
+        self.init_min_price_to_buy()
+        self.init_min_price_to_sell()
 
     def buy(self, price=0):
         price = price * (1 - self.__bid_fee)
@@ -66,7 +66,7 @@ class DogeTrader(trader.Trader):
     def get_target_sell_price(self):
         return self.__target_sell_price
 
-    def set_target_buy_price(self, count=2):
+    def init_target_buy_price(self, count=2):
         day_candles = DataFrame.from_dict(self.__day_candle(count))
 
         today = day_candles.iloc[0]
@@ -75,13 +75,13 @@ class DogeTrader(trader.Trader):
 
         self.__target_buy_price = today['opening_price'] + (yesterday_volatility_range * self.__noise_ratio)
 
-    def set_target_sell_price(self):
+    def init_target_sell_price(self):
         self.__target_sell_price = self.__target_buy_price
 
-    def set_min_price_to_buy(self):
+    def init_min_price_to_buy(self):
         self.__min_price_to_buy = self.get_order_info()['market']['bid']['min_total']
 
-    def set_min_price_to_sell(self):
+    def init_min_price_to_sell(self):
         self.__min_price_to_sell = self.get_order_info()['market']['ask']['min_total']
 
     def __day_candle(self, count=1):

@@ -37,8 +37,8 @@ class AccountTrader(trader.Trader):
 
         return current_balance['balance']
 
-    def set_target_buy_price(self):
+    def init_target_buy_price(self):
         pass
 
-    def set_target_sell_price(self):
+    def init_target_sell_price(self):
         pass

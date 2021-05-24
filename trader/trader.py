@@ -23,9 +23,9 @@ class Trader(metaclass=ABCMeta):
         pass
 
     @abstractmethod
-    def set_target_buy_price(self):
+    def init_target_buy_price(self):
         pass
 
     @abstractmethod
-    def set_target_sell_price(self):
+    def init_target_sell_price(self):
         pass
