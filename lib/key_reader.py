@@ -1,11 +1,11 @@
-import os
+from config import config
 
 
 class KeyReader:
     def __init__(self) -> None:
         super().__init__()
-        self.__access_key_path = os.path.abspath(os.curdir) + '/access.key'
-        self.__secret_key_path = os.path.abspath(os.curdir) + '/secret.key'
+        self.__access_key_path = config.default['access_key_path']
+        self.__secret_key_path = config.default['secret_key_path']
 
     def get_access_key(self):
         f = open(self.__access_key_path, 'r')

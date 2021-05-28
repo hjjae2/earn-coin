@@ -26,6 +26,6 @@ MANIFEST
 .idea/
 
 # Files
-access.key
-secret.key
+config/access.key
+config/secret.key
 

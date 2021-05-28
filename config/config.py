@@ -1,6 +1,11 @@
+import os
+
+
 default = {
     'buy_price': 99999999999,
     'sell_price': 99999999999,
+    'access_key_path': os.path.dirname(os.path.abspath(__file__)) + '/access.key',
+    'secret_key_path': os.path.dirname(os.path.abspath(__file__)) + '/secret.key',
 }
 
 krw = {
