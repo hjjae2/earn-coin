@@ -75,6 +75,7 @@ class DogeRunner(runner.Runner):
     def stop(self, signum, frame):
         self.__run = False
 
+
 if __name__ == '__main__':
     runner = DogeRunner()
     runner.run()
