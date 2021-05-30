@@ -1,7 +1,7 @@
+from runner import runner
 from trader import doge_trader
 from trader import account_trader
 
-import runner
 import time
 import datetime
 import signal
