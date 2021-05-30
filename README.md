@@ -8,6 +8,7 @@ You can use below functions using My API key.
 2. 주문조회
 3. 주문하기
 
+<br>
 
 ### Structure
 
@@ -19,6 +20,23 @@ You can use below functions using My API key.
 
 `trader/` : A package for trader classes (trader, each_trader, ...)<br>
 
+<br>
+
+### Usage
+
+**1. Install packages**
+```
+pip install -r requirements.txt
+```
+
+**2. Put the access.key, secret.key into `config/`**
+
+**3. Run runner**
+```
+python -m runner.{coin}_runner
+```
+
+<br>
 
 ### Documents
 
