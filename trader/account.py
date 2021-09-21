@@ -1,19 +1,17 @@
 from config import config
-from trader import trader
-from lib import upbit
-from lib import key_reader
+from trader import temp_trader
+from libs import upbit
+from libs import key_reader
 
 
-class AccountTrader(trader.Trader):
+class AccountTrader(temp_trader.Trader):
 
     def __init__(self) -> None:
         super().__init__()
 
         self.__upbit = upbit.UpBit()
-        self.__key_reader = key_reader.KeyReader()
-
-        self.__upbit.set_access_key(self.__key_reader.get_access_key())
-        self.__upbit.set_secret_key(self.__key_reader.get_secret_key())
+        self.__upbit.set_access_key(key_reader.get_access_key())
+        self.__upbit.set_secret_key(key_reader.get_secret_key())
 
         self.__market_code = config.krw['market_code']
         self.__currency = config.krw['currency']

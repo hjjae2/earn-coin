@@ -8,7 +8,7 @@ import datetime
 import signal
 
 
-class DogeRunner(runner.Runner):
+class OmgRunner(runner.Runner):
     def __init__(self) -> None:
         super().__init__()
 
@@ -16,17 +16,16 @@ class DogeRunner(runner.Runner):
         self.__start_time = None
         self.__end_time = None
         self.__sell_time = None
-
         self.__account = account.AccountTrader()
 
         self.__trader = trader.Trader()
-        self.__trader.set_currency(config.doge['currency'])
-        self.__trader.set_market_code(config.doge['market_code'])
-        self.__trader.set_noise_ratio(config.doge['noise_ratio'])
-        self.__trader.set_bid_fee(config.doge['bid_fee'])
-        self.__trader.set_ask_fee(config.doge['ask_fee'])
-        self.__trader.set_min_price_to_buy(config.doge['min_price_to_buy'])
-        self.__trader.set_min_price_to_sell(config.doge['min_price_to_sell'])
+        self.__trader.set_currency(config.omg['currency'])
+        self.__trader.set_market_code(config.omg['market_code'])
+        self.__trader.set_noise_ratio(config.omg['noise_ratio'])
+        self.__trader.set_bid_fee(config.omg['bid_fee'])
+        self.__trader.set_ask_fee(config.omg['ask_fee'])
+        self.__trader.set_min_price_to_buy(config.omg['min_price_to_buy'])
+        self.__trader.set_min_price_to_sell(config.omg['min_price_to_sell'])
 
         self.__target_buy_price = self.__trader.get_target_buy_price()
         self.__target_sell_price = self.__trader.get_target_sell_price()
@@ -90,5 +89,5 @@ class DogeRunner(runner.Runner):
 
 
 if __name__ == '__main__':
-    runner = DogeRunner()
+    runner = OmgRunner()
     runner.run()
