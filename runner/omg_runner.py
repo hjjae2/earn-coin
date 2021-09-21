@@ -9,7 +9,7 @@ import datetime
 import signal
 
 
-class DogeRunner(runner.Runner):
+class OmgRunner(runner.Runner):
     def __init__(self) -> None:
         super().__init__()
 
@@ -17,10 +17,9 @@ class DogeRunner(runner.Runner):
         self.__start_time = None
         self.__end_time = None
         self.__sell_time = None
-
         self.__account = account.AccountTrader()
 
-        self.__trader = trader.Trader(config.doge)
+        self.__trader = trader.Trader(config.omg)
         self.__target_buy_price = self.__trader.get_target_buy_price()
         self.__target_sell_price = self.__trader.get_target_sell_price()
 
@@ -85,5 +84,5 @@ class DogeRunner(runner.Runner):
 
 
 if __name__ == '__main__':
-    runner = DogeRunner()
+    runner = OmgRunner()
     runner.run()

@@ -1,9 +1,11 @@
 from urllib.parse import urlencode
+from libs import logger
 
 import jwt
 import uuid
 import hashlib
 import requests
+import pprint
 
 
 class UpBit:
@@ -72,7 +74,22 @@ class UpBit:
 
         headers = self.__generate_auth_headers(params)
 
-        return requests.post(self.__server_url + "/v1/orders", params=params, headers=headers)
+        try:
+            logger.log("주문(매수/매도) API Request Parameter")
+            pprint.pprint(params)
+            return requests.post(self.__server_url + "/v1/orders", params=params, headers=headers)
+        except requests.exceptions.Timeout as e:
+            logger.error("주문(매수/매도) API TimeoutError : {}".format(e))
+            return False
+        except requests.exceptions.ConnectionError as e:
+            logger.error("주문(매수/매도) API ConnectionError : {}".format(e))
+            return False
+        except requests.exceptions.HTTPError as e:
+            logger.error("주문(매수/매도) API HTTPError : {}".format(e))
+            return False
+        except requests.exceptions.RequestException as e:
+            logger.error("주문(매수/매도) API RequestException : {}".format(e))
+            return False
 
     # 주문 취소
     def order_cancel(self, uuid=None, identifier=None):
@@ -87,7 +104,22 @@ class UpBit:
 
         headers = self.__generate_auth_headers(params)
 
-        return requests.delete(self.__server_url + '/v1/order', headers=headers, params=params)
+        try:
+            logger.log("주문취소 API Request Parameter")
+            pprint.pprint(params)
+            return requests.delete(self.__server_url + '/v1/order', headers=headers, params=params)
+        except requests.exceptions.Timeout as e:
+            logger.error("주문취소 API TimeoutError : {}".format(e))
+            return False
+        except requests.exceptions.ConnectionError as e:
+            logger.error("주문취소 API ConnectionError : {}".format(e))
+            return False
+        except requests.exceptions.HTTPError as e:
+            logger.error("주문취소 API HTTPError : {}".format(e))
+            return False
+        except requests.exceptions.RequestException as e:
+            logger.error("주문취소 API RequestException : {}".format(e))
+            return False
 
     # 개별 주문 조회
     def order_info(self, uuid=None, identifier=None):
