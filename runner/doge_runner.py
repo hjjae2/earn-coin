@@ -1,4 +1,5 @@
-from trader import *
+from trader import trader
+from trader import account
 from libs import logger
 from runner import runner
 from config import config
