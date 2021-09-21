@@ -1,4 +1,5 @@
-from trader import *
+from trader import trader
+from trader import account
 from libs import logger
 from runner import runner
 from config import config
@@ -18,15 +19,7 @@ class OmgRunner(runner.Runner):
         self.__sell_time = None
         self.__account = account.AccountTrader()
 
-        self.__trader = trader.Trader()
-        self.__trader.set_currency(config.omg['currency'])
-        self.__trader.set_market_code(config.omg['market_code'])
-        self.__trader.set_noise_ratio(config.omg['noise_ratio'])
-        self.__trader.set_bid_fee(config.omg['bid_fee'])
-        self.__trader.set_ask_fee(config.omg['ask_fee'])
-        self.__trader.set_min_price_to_buy(config.omg['min_price_to_buy'])
-        self.__trader.set_min_price_to_sell(config.omg['min_price_to_sell'])
-
+        self.__trader = trader.Trader(config.omg)
         self.__target_buy_price = self.__trader.get_target_buy_price()
         self.__target_sell_price = self.__trader.get_target_sell_price()
 
@@ -66,6 +59,8 @@ class OmgRunner(runner.Runner):
             current_coin_price = self.__trader.get_current_price()
             current_coin_balance = self.__trader.get_current_balance()
 
+            logger.log("TARGET BUY PRICE : {} | TARGET SELL PRICE : {}"
+                       .format(self.__target_buy_price, self.__target_sell_price))
             logger.log("CURRENT KRW : {} | CURRENT COIN PRICE : {} | CURRENT COIN BALANCE : {}"
                        .format(current_krw_balance, current_coin_price, current_coin_balance))
 

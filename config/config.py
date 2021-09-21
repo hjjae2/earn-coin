@@ -2,8 +2,8 @@ import os
 
 
 default = {
-    'buy_price': 99999999999,
-    'sell_price': 99999999999,
+    'init_buy_price': 99999999999,
+    'init_buy_price': 99999999999,
     'access_key_path': os.path.dirname(os.path.abspath(__file__)) + '/access.key',
     'secret_key_path': os.path.dirname(os.path.abspath(__file__)) + '/secret.key',
     'noise_ratio': 0.5,
@@ -26,6 +26,8 @@ doge = {
     'ask_fee': 0.0005,
     'min_price_to_buy': 5000,
     'min_price_to_sell': 5000,
+    'init_buy_price': 99999999999,
+    'init_buy_price': 99999999999,
 }
 
 omg = {
@@ -36,6 +38,8 @@ omg = {
     'ask_fee': 0.0005,
     'min_price_to_buy': 5000,
     'min_price_to_sell': 5000,
+    'init_buy_price': 99999999999,
+    'init_sell_price': 99999999999,
 }
 
 eos = {

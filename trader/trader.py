@@ -1,4 +1,3 @@
-from config import config
 from libs import upbit
 from libs import key_reader
 from libs import logger
@@ -6,23 +5,22 @@ from pandas import DataFrame
 
 
 class Trader:
-    def __init__(self) -> None:
+    def __init__(self, config) -> None:
         super().__init__()
 
         self.__upbit = upbit.UpBit()
         self.__upbit.set_access_key(key_reader.get_access_key())
         self.__upbit.set_secret_key(key_reader.get_secret_key())
 
-        self.__currency = None
-        self.__market_code = None
-
-        self.__bid_fee = config.default['bid_fee']
-        self.__ask_fee = config.default['ask_fee']
-        self.__noise_ratio = config.default['noise_ratio']
-        self.__min_price_to_buy = config.default['min_price_to_buy']
-        self.__min_price_to_sell = config.default['min_price_to_sell']
-        self.__target_buy_price = config.default['buy_price']
-        self.__target_sell_price = config.default['sell_price']
+        self.__currency = config['currency']
+        self.__market_code = config['market_code']
+        self.__bid_fee = config['bid_fee']
+        self.__ask_fee = config['ask_fee']
+        self.__noise_ratio = config['noise_ratio']
+        self.__min_price_to_buy = config['min_price_to_buy']
+        self.__min_price_to_sell = config['min_price_to_sell']
+        self.__target_buy_price = config['init_buy_price']
+        self.__target_sell_price = config['init_sell_price']
 
         self.init_target_buy_price()
         self.init_target_sell_price()

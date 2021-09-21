@@ -20,15 +20,7 @@ class DogeRunner(runner.Runner):
 
         self.__account = account.AccountTrader()
 
-        self.__trader = trader.Trader()
-        self.__trader.set_currency(config.doge['currency'])
-        self.__trader.set_market_code(config.doge['market_code'])
-        self.__trader.set_noise_ratio(config.doge['noise_ratio'])
-        self.__trader.set_bid_fee(config.doge['bid_fee'])
-        self.__trader.set_ask_fee(config.doge['ask_fee'])
-        self.__trader.set_min_price_to_buy(config.doge['min_price_to_buy'])
-        self.__trader.set_min_price_to_sell(config.doge['min_price_to_sell'])
-
+        self.__trader = trader.Trader(config.doge)
         self.__target_buy_price = self.__trader.get_target_buy_price()
         self.__target_sell_price = self.__trader.get_target_sell_price()
 
@@ -68,6 +60,8 @@ class DogeRunner(runner.Runner):
             current_coin_price = self.__trader.get_current_price()
             current_coin_balance = self.__trader.get_current_balance()
 
+            logger.log("TARGET BUY PRICE : {} | TARGET SELL PRICE : {}"
+                       .format(self.__target_buy_price, self.__target_sell_price))
             logger.log("CURRENT KRW : {} | CURRENT COIN PRICE : {} | CURRENT COIN BALANCE : {}"
                        .format(current_krw_balance, current_coin_price, current_coin_balance))
 

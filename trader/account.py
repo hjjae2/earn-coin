@@ -1,10 +1,9 @@
 from config import config
-from trader import temp_trader
 from libs import upbit
 from libs import key_reader
 
 
-class AccountTrader(temp_trader.Trader):
+class AccountTrader:
 
     def __init__(self) -> None:
         super().__init__()
