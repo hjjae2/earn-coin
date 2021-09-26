@@ -9,4 +9,5 @@ Implementation classes can be created with the following format names : `{coin}_
 
 <br>
 
-`doge_runner.py` : Runner for trading doge(doge_trader)
+`doge_runner.py` : Runner for doge coin
+`omg_runner.py` : Runner for omg coin
